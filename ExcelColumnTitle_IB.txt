@@ -1,0 +1,42 @@
+*/
+Given a positive integer A, return its corresponding column title as appear in an Excel sheet.
+
+
+
+Problem Constraints
+1 <= A <= 1000000000
+Example Input
+Input 1:
+
+ A = 1
+Input 2:
+
+ A = 28
+
+
+Example Output
+Output 1:
+
+ "A"
+Output 2:
+
+ "AB"
+ */
+
+ Code:
+
+string Solution::convertToTitle(int A) {
+    string res="";
+  while(A>0){
+      int x=A%26;
+      if(x==0) {
+          res='Z'+res;
+          A=A/26-1;
+      }
+      else {
+          res=char('A'+(x-1)) +res;
+          A=A/26;
+      }
+  }
+  return res;
+}
