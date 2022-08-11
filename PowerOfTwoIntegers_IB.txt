@@ -9,12 +9,12 @@ as 2^2 = 4.
 */ 
 
 Code:
- 
+
 int Solution::isPower(int A) {
     if(A==0 || A==1) return 1;
     
     int p;
-    for(int i=2;i<=sqrt(A);i++){
+    for(int i=2;i<=sqrt(A);i++){     //p can be min 2. Hence i can be max sqrt(A).
         p=log(A)/log(i);
         if(pow(i,p)==A) return 1;
     }
