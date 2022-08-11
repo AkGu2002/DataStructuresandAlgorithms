@@ -1,0 +1,40 @@
+*/
+You are given an integer N and the task is to reverse the digits of the given integer. Return 0 if the result overflows and does not fit in a 32 bit signed integer
+Example Input
+Input 1:
+
+ x = 123
+
+
+Input 2:
+
+ x = -123
+
+
+Example Output
+Output 1:
+
+ 321
+
+
+Ouput 2:
+
+ -321
+ */
+
+ Code:
+ int Solution::reverse(int A) {
+    //when does a overflow happen? either the reversed value>INT_MAX/10 or the reversed values upcoming last
+    //digit is greater than the last digit of INT_MAX
+    int rev=0;
+    bool ok=0;
+    if(A<0) {A=-A;ok=1;}
+    while(A>0){
+        if(rev>INT_MAX/10 || rev==INT_MAX/10 && A>INT_MAX%10) return 0;
+        rev=rev*10 + A%10;
+        A=A/10;
+       
+    }
+    if(ok) rev=-rev;
+    return rev;
+}
