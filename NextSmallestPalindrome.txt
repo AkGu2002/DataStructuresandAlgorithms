@@ -1,3 +1,4 @@
+*/
 Given a numeric string A representing a large number you need to find the next smallest palindrome greater than this number.
 
 
@@ -22,9 +23,10 @@ Output 1:
 Output 2:
 
  "1001"
-
- Code:
  
+*/
+ Code:
+
  bool isPalindrome(string &A, int i ,int j){
     while(i<j){
         if(A[i]!=A[j]) return 0;
