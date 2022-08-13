@@ -1,0 +1,65 @@
+*/
+Given a string, find the rank of the string amongst its permutations sorted lexicographically. 
+
+Note that the characters might be repeated. If the characters are repeated, we need to look at the rank in unique permutations. 
+
+Look at the example for more details.
+
+Example :
+
+Input : 'aba'
+Output : 2
+
+*/
+
+Code: 
+
+int fact(long long int n){
+    if(n==0 || n==1) return 1;
+    return n*fact(n-1);
+}
+int lexRank(string s)
+{
+    long long int n = s.size();
+    
+    long long int t_count = 1;
+ 
+    
+    for (int i = 0; i < n; i++)
+    {
+        
+        int less_than = 0;
+        for (int j = i + 1; j < n; j++)
+        {
+            if (int(s[i]) > int(s[j]))
+            {
+                less_than += 1;
+            }
+        }
+ 
+       
+        vector<int> d_count(52, 0);
+ 
+        for (int j = i; j < n; j++)
+        {
+          
+            if ((int(s[j]) >= 'A') && int(s[j]) <= 'Z')
+                d_count[int(s[j]) - 'A'] += 1;
+            else
+                d_count[int(s[j]) - 'a' + 26] += 1;
+        }
+ 
+        long long int d_fac = 1;
+        for (int ele : d_count)
+            d_fac *= fact(ele);
+ 
+     
+        t_count += (fact(n - i - 1) * less_than) / d_fac;
+    }
+ 
+    return (int)t_count%1000003;
+}
+
+int Solution::findRank(string A) {
+    return lexRank(A);
+    }
