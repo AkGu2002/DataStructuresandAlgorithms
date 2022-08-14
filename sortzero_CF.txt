@@ -1,0 +1,55 @@
+*/
+You are given an array of n positive integers a1,a2,…,an.
+
+In one operation you do the following:
+
+Choose any integer x.
+For all i such that ai=x, do ai:=0 (assign 0 to ai).
+Find the minimum number of operations required to sort the array in non-decreasing order.
+
+*/
+
+Code:
+
+int32_t main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int> arr(n+1,0);
+        vector<int> rightmost(n+1,0);
+
+        for(int i=1;i<=n;i++){
+            cin>>arr[i];
+            rightmost[arr[i]]=i;
+        }
+        
+        vector<bool> is_Sorted(n+2,false);
+        is_Sorted[n+1]=true;
+        is_Sorted[n]=true;
+        for(int i=n-1;i>0;i--){
+            if(is_Sorted[i+1] && arr[i+1]>=arr[i]){
+                is_Sorted[i]=true;
+            }
+        }
+        set<int> st;
+        int ans=0;
+        int mx=0;
+
+        for(int i=0;i<=n;i++){
+           if(i>0) st.insert(arr[i]);
+            mx=max(mx, rightmost[arr[i]]);
+            if(mx<=i && is_Sorted[i+1]){
+                ans=st.size();
+                break;
+            }
+        }
+        cout<<ans<<endl;
+    }
+
+
+
+
+    return 0;
+}
