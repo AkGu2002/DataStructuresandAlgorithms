@@ -1,0 +1,89 @@
+*/
+Given a set of digits (A) in sorted order, find how many numbers of length B are possible whose value is less than number C.
+NOTE: All numbers can only have digits from the given set.  
+
+Examples:
+
+Input:
+  0 1 5
+
+  1
+
+  2
+
+Output:
+
+  2 (0 and 1 are possible)  
+
+
+Input:
+  0 1 2 5
+
+  2
+
+  21
+
+Output:
+  5 (10, 11, 12, 15, 20 are possible)
+
+  */
+  Code:
+  int Solution::solve(vector<int> &A, int B, int C) {
+    if(A.size()==0) return 0;
+    int temp=C, count=0, ans=0;
+    int n=A.size();
+    while(temp){
+        count++;
+        temp=temp/10;
+    }
+    if(count<B) return 0;
+    else if(count>B){
+        if(A[0]==0) ans=(n-1)*pow(n,B-1);
+        else ans= pow(n,B);
+        if(B==1 && A[0]==0) ans++;
+        return ans;
+    }
+    else{
+        if(B==1) {
+            for(int i=0;i<n;i++){
+                if(A[i]<C) ans++;
+            }
+         
+        }
+        else{
+            vector<int> x(B);
+            for(int i=B-1;i>=0;i--){
+                x[i]=C%10;
+                C=C/10;
+            }
+            count=0;
+            for(int i=0;i<n;i++){
+                if(A[i]==0) continue;
+                if(A[i]>x[0]) break;
+                count++;
+            }
+            ans+=count*pow(n,B-1); //this has some values greater than C
+            int flag=0;
+            int j=0;
+            for(int i=0;i<n;i++){
+                if(A[i]==x[j]) {flag=1;break;}
+            }
+            j++;
+            while(flag==1 && j<B){
+                flag=0;
+                int countx=0;
+                for(int i=0;i<n;i++){
+                    if(A[i]>x[j]) {
+                        countx++;
+                    }
+                    if(A[i]==x[j]) flag=1;
+                }
+                ans-=countx*(pow(n,B-j-1));
+                j++;
+            }
+            if(j==B && flag==1) ans--;
+        }
+    }
+    return ans;
+    
+}
