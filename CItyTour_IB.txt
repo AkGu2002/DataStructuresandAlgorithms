@@ -1,0 +1,79 @@
+*/
+There are A cities numbered from 1 to A. You have already visited M cities, the indices of which are given in an array B of M integers.
+
+If a city with index i is visited, you can visit either the city with index i-1 (i >= 2) or the city with index i+1 (i < A) if they are not already visited.
+Eg: if N = 5 and array M consists of [3, 4], then in the first level of moves, you can either visit 2 or 5.
+
+You keep visiting cities in this fashion until all the cities are not visited.
+Find the number of ways in which you can visit all the cities modulo 10^9+7.
+For Example 
+
+Input:
+
+A = 5
+B = [2, 5]
+
+Output:
+
+6
+
+Explanation:
+
+All possible ways to visit remaining cities are :
+1. 1 -> 3 -> 4
+2. 1 -> 4 -> 3
+3. 3 -> 1 -> 4
+4. 3 -> 4 -> 1
+5. 4 -> 1 -> 3
+6. 4 -> 3 -> 1
+
+*/
+
+Code:
+const int M=1e9+7;
+long long int pow_a(long long int a, long long int N){
+    if(N==0) return 1;
+    if(N==1) return a;
+    
+    long long int temp= (1ll*pow_a(a,N/2))%M;
+    if(N%2==0) return (1ll*temp*temp)%M;
+    return (((a*temp)%M*temp)%M)%M;
+    
+    
+}
+long long int fact(long long int N){
+    long long int ans=1;
+    for(long long int i=1;i<=N;i++){
+        ans*=i;
+        ans=ans%M;
+    }
+    return ans;
+}
+int Solution::solve(int A, vector<int> &B) {
+    sort(B.begin(), B.end());
+    int N= A-B.size();
+    
+    vector<int> temp;
+    temp.push_back(B[0]-1);
+    for(int i=1;i<B.size();i++){
+        temp.push_back(B[i]-B[i-1]-1);
+    }
+    temp.push_back(A-B.back());
+    long long int ans;
+    ans=fact(N);
+    for(int i=0;i<temp.size();i++){
+        ans*=(pow_a(fact(temp[i]),1000000005)%M);
+        ans=ans%M;
+    }
+    long long int z=1;
+    for(int i=1;i<temp.size()-1;i++){
+        if(temp[i]<2) continue;
+        z*=pow_a(2, temp[i]-1);
+        z=z%M;
+    }
+        
+    
+    ans=(ans*z)%M;
+    return ans%M;
+    
+}
