@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minReorder(int n, vector<vector<int>>& connections) {
+        vector<int> adj[n];
+        vector<int> bdj[n];
+        for(auto it: connections){
+            adj[it[0]].push_back(it[1]);
+            bdj[it[1]].push_back(it[0]);
+        }
+        vector<int> vis(n,0);
+        queue<int> q;
+        q.push(0);
+        int cnt = 0;
+        while(!q.empty()){
+            auto curr = q.front();
+            q.pop();
+            vis[curr] = 1;
+            for(auto it: adj[curr]){
+                if(!vis[it]){
+                    cnt++;
+                    q.push(it);
+                }
+            }
+
+            for(auto it: bdj[curr]){
+                if(!vis[it]){
+                    q.push(it);
+                }
+            }
+
+        }
+        return cnt;
+    }
+};
